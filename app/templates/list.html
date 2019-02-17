@@ -1,18 +1,33 @@
 {% extends "base.html" %}
-{% block app_content %}
-<table class="table table-dark">
-  <thead>
-    <tr>
-      <th scope="col">Account ID</th>
-      <th scope="col">Account Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">{{ account.get('name') }}</th>
-      <td>{{ account.get('id') }}</td>
-    </tr>
-  </tbody>
-</table>
 
+{% block content %}
+    <h1>Search Result</h1>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Account Name</th>
+          <th scope="col">Account Id</th>
+          <th scope="col">Subscription Level</th>
+          <th scope="col">Ticket count</th>
+        </tr>
+      </thead>
+    {% for item in customer_list %}
+    <tbody>
+      <tr>
+        <th scope="row">
+          {{item.get('name')}}
+        </th>
+        <td>
+          {{item.get('id')}}
+        </td>
+        <td>
+          {{item.get('custom_fields')['anaconda_subscription_level']}}
+        </td>
+        <td>
+          {{item.get('ticket_count')}}
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+</form>
 {% endblock %}

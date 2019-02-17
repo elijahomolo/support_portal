@@ -7,8 +7,11 @@ from logic import headers, auth
 @app.route('/')
 @app.route('/list')
 def get_customer_list():
+    customer_list = []
     customer_pages = []
     companies = []
+    account = ''
+
     for i in range(1, 24):
         page = i
         url = 'https://support.anaconda.com/api/v2/companies?page={0}&per_page=100'.format(page)
@@ -17,17 +20,24 @@ def get_customer_list():
         customers = desk_data['_embedded']['entries']
         customer_pages.append(customers)
 
-    customer_list = []
     for page_number in range(len(customer_pages)):
         pages = customer_pages[page_number]
         #print(len(pages))
         for accounts in range(len(pages)):
-            customer_list.append(pages[accounts])
-            #return(customer_list)
-    for a in range(len(customer_list)):
-        account = customer_list[a]
-        if account.get('name') == "ExxonMobil":
-            ExxonMobil = account
-            #return(ExxonMobil)
+            accounts = pages[accounts]
+            custom_fields = accounts.get('custom_fields')
+            anaconda_subscription_level = custom_fields.get('anaconda_subscription_level')
 
-    return render_template('list.html', account=ExxonMobil)
+            if anaconda_subscription_level == "Anaconda Enterprise" or anaconda_subscription_level == "Implementation":
+                customer_list.append(accounts)
+
+    for item in customer_list:
+        case_url = 'https://support.anaconda.com' + item.get('_links')['cases']['href']
+        case_response = requests.get(case_url , headers=headers, auth=auth )
+        case_data = case_response.json()
+        ticket_count = case_data.get('total_entries')
+        item['ticket_count'] = ticket_count
+
+
+
+    return render_template('list.html', customer_list=customer_list, account=account)

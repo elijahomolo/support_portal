@@ -11,4 +11,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("No secret key set for Flask application")
 auth=('eomolo@anaconda.com', SECRET_KEY)
+customer_pages = []
+companies = []
 #data = '{"subject":"Test"}'
