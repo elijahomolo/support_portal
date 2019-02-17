@@ -1,12 +1,18 @@
-<html>
-    <head>
-        {% if title %}
-        <title>{{ title }} - Microblog</title>
-        {% else %}
-        <title>Welcome to Microblog!</title>
-        {% endif %}
-    </head>
-    <body>
-        <h1>{{ account.get('id') }}</h1>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block app_content %}
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Account ID</th>
+      <th scope="col">Account Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{{ account.get('name') }}</th>
+      <td>{{ account.get('id') }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}
