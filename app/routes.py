@@ -37,7 +37,16 @@ def get_customer_list():
         case_data = case_response.json()
         ticket_count = case_data.get('total_entries')
         item['ticket_count'] = ticket_count
-
+        entries = case_data['_embedded']['entries']
+        open_tix = []
+        for entry in entries:
+            status = entry.get('status')
+            if status == 'open' or status =='pending':
+                open_tix.append(entry)
+                open_ticket_count = len(open_tix)
+                item['open_tickets'] = open_ticket_count
+            else:
+                item['open_tickets'] = 0
 
 
     return render_template('list.html', customer_list=customer_list, account=account)

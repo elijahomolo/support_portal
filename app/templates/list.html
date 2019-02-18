@@ -8,7 +8,7 @@
           <th scope="col">Account Name</th>
           <th scope="col">Account Id</th>
           <th scope="col">Subscription Level</th>
-          <th scope="col">Ticket count</th>
+          <th scope="col">Open Tickets</th>
         </tr>
       </thead>
     {% for item in customer_list %}
@@ -24,7 +24,7 @@
           {{item.get('custom_fields')['anaconda_subscription_level']}}
         </td>
         <td>
-          {{item.get('ticket_count')}}
+          {{item.get('open_tickets')}}
         </td>
       </tr>
     </tbody>
